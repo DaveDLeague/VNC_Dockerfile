@@ -49,7 +49,29 @@ RUN  apt-get update \
     && echo "Exec=/headless/eclipse/eclipse" >> /headless/Desktop/eclipse.desktop \
     && echo "Terminal=false" >> /headless/Desktop/eclipse.desktop \
     && echo "Categories=Development;IDE;Programming" >> /headless/Desktop/eclipse.desktop \
-    && chmod +x /headless/Desktop/eclipse.desktop 
-    && curl -o /headless/eclipse/eclipse.ini https://raw.githubusercontent.com/League-central/VNC_Dockerfile/master/eclipse.ini
+    && chmod +x /headless/Desktop/eclipse.desktop \
+    && curl -o /headless/eclipse/eclipse.ini https://raw.githubusercontent.com/League-central/VNC_Dockerfile/master/eclipse.ini \
+    && echo "#!/bin/bash" > $HOME/Desktop/begin_workshop.sh \
+    && echo "xterm -hold -e bash -c \\" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "\"" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "echo Enter your first and last name ALL LOWERCASE with NO SPACES:" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "read UserName" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "git clone https://github.com/League-central/IntroToJavaWorkshop.git \$HOME/Desktop/IntroToJavaWorkshop && \\" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "cd \$HOME/Desktop/IntroToJavaWorkshop && \\" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "git checkout \\\$UserName || git checkout -b \\\$UserName && \\" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "git config user.email \"student@jointheleague.org\" && \\" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "git config user.name \"league student\"" >> $HOME/Desktop/begin_workshop.sh \
+    && echo "\"" >> $HOME/Desktop/begin_workshop.sh \
+    && chmod u+x $HOME/Desktop/begin_workshop.sh \
+    && echo "#!/bin/bash" > $HOME/Desktop/end_workshop.sh \
+    && echo "xterm -hold -e bash -c \\" >> $HOME/Desktop/end_workshop.sh \
+    && echo "\"" >> $HOME/Desktop/end_workshop.sh \
+    && echo "Var=\$(curl https://pastebin.com/raw/2zGJanEV) && \\" >> $HOME/Desktop/end_workshop.sh \
+    && echo "cd \$HOME/Desktop/IntroToJavaWorkshop && \\" >> $HOME/Desktop/end_workshop.sh \
+    && echo "git add . && \\" >> $HOME/Desktop/end_workshop.sh \
+    && echo "git commit -m \"updates\" && \\" >> $HOME/Desktop/end_workshop.sh \
+    && echo "git push https://jointheleague-it:\\\$Var@github.com/League-central/IntroToJavaWorkshop.git --all" >>  $HOME/Desktop/end_workshop.sh \
+    && echo "\"" >> $HOME/Desktop/end_workshop.sh \
+    && chmod u+x $HOME/Desktop/end_workshop.sh
 ## switch back to default user          
 ## USER 1000 
